@@ -1,0 +1,25 @@
+docker build -t micro_reservas .
+
+docker network create my-network
+
+docker run --name mysql-container --network my-network -e MYSQL_ROOT_PASSWORD=123 -d mysql:latest
+
+docker exec -it mysql-container bash
+mysql -u root -p
+
+CREATE DATABASE sisdb2025;
+
+use sisdb2025;
+
+
+docker run --name micro_reservas --network my-network -p 8002:8002 -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/sisdb2025 -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=123 -d micro_reservas
+194c6e8b550e1488361da49dcefa0bb0140eec2495bbb3d65c316fab166450e5
+
+
+{
+  "cliente": "Juan Pérez",
+  "servicio": "Cena de Negocios",
+  "personas": 10,
+  "fechaReserva": "2025-01-20T19:30:00"
+}
+
